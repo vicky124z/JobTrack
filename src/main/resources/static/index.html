@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobTrack | Job Application Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h2 class="logo">
+            <i data-lucide="briefcase-business"></i>
+            JobTrack<span>.</span>
+        </h2>
+
+        <nav>
+            <a href="#" class="nav-link active">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#applications" class="nav-link">
+                <i data-lucide="clipboard-list"></i>
+                <span>Applications</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>JobTrack v2.0</p>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's your job application overview.</p>
+            </div>
+
+            <button id="addJobBtn" class="primary-btn">
+                <i data-lucide="plus"></i>
+                <span> Add Application</span>
+            </button>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+
+            <!-- Total Applications -->
+            <div class="stat-card total-card">
+
+                <div class="stat-info">
+                    <p>Total Applications</p>
+                    <h2 id="totalCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="briefcase-business"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Applied -->
+            <div class="stat-card applied-card">
+
+                <div class="stat-info">
+                    <p>Applied</p>
+                    <h2 id="appliedCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="send"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Shortlisted -->
+            <div class="stat-card shortlisted-card">
+
+                <div class="stat-info">
+                    <p>Shortlisted</p>
+                    <h2 id="shortlistedCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="star"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Interviews -->
+            <div class="stat-card interview-card">
+
+                <div class="stat-info">
+                    <p>Interviews</p>
+                    <h2 id="interviewCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="calendar-check"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Selected -->
+            <div class="stat-card selected-card">
+
+                <div class="stat-info">
+                    <p>Selected</p>
+                    <h2 id="selectedCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="trophy"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Rejected -->
+            <div class="stat-card rejected-card">
+
+                <div class="stat-info">
+                    <p>Rejected</p>
+                    <h2 id="rejectedCount">0</h2>
+                </div>
+
+                <div class="stat-icon">
+                    <i data-lucide="circle-x"></i>
+                </div>
+
+            </div>
+
+        </section>
+
+            <!-- Analytics Dashboard -->
+            <section class="analytics-grid">
+
+                <div class="analytics-card">
+                    <div class="analytics-header">
+                        <div>
+                            <h2>Application Overview</h2>
+                            <p>Track your application progress</p>
+                        </div>
+                        <i data-lucide="chart-pie"></i>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="applicationChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-header">
+                        <div>
+                            <h2>Recent Applications</h2>
+                            <p>Your latest job applications</p>
+                        </div>
+                        <i data-lucide="clock"></i>
+                    </div>
+
+                    <div id="recentApplications" class="recent-list">
+                        <p>Loading recent applications...</p>
+                    </div>
+                </div>
+
+            </section>
+
+
+        <!-- APPLICATIONS SECTION -->
+        <section class="applications-section" id="applications">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>My Applications</h2>
+                    <p>View and manage your applications.</p>
+                </div>
+
+
+                <!-- SEARCH AND FILTER -->
+                <div class="filters">
+
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search company..."
+                        >
+                    </div>
+
+
+                    <div class="filter-box">
+                        <i data-lucide="filter"></i>
+
+                        <select id="statusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="APPLIED">Applied</option>
+                            <option value="SHORTLISTED">Shortlisted</option>
+                            <option value="INTERVIEW">Interview</option>
+                            <option value="SELECTED">Selected</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION TABLE -->
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Job Role</th>
+                            <th>Location</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="applicationsTable">
+
+                        <tr>
+                            <td colspan="6">Loading applications...</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ADD / EDIT APPLICATION MODAL -->
+<div id="jobModal" class="modal">
+
+    <div class="modal-content">
+
+        <!-- MODAL HEADER -->
+        <div class="modal-header">
+
+            <h2 id="modalTitle">Add Application</h2>
+
+            <button
+                id="closeModalBtn"
+                class="close-btn"
+                type="button"
+                aria-label="Close modal"
+            >
+                <i data-lucide="x"></i>
+            </button>
+
+        </div>
+
+
+        <!-- APPLICATION FORM -->
+        <form id="jobForm">
+
+            <input type="hidden" id="jobId">
+
+
+            <label for="companyName">Company Name</label>
+            <input
+                type="text"
+                id="companyName"
+                placeholder="Enter company name"
+                required
+            >
+
+
+            <label for="jobRole">Job Role</label>
+            <input
+                type="text"
+                id="jobRole"
+                placeholder="Enter job role"
+                required
+            >
+
+
+            <label for="location">Location</label>
+            <input
+                type="text"
+                id="location"
+                placeholder="Enter job location"
+            >
+
+
+            <label for="applicationDate">Application Date</label>
+            <input
+                type="date"
+                id="applicationDate"
+                required
+            >
+
+
+            <label for="status">Status</label>
+
+            <select id="status" required>
+                <option value="APPLIED">Applied</option>
+                <option value="SHORTLISTED">Shortlisted</option>
+                <option value="INTERVIEW">Interview</option>
+                <option value="SELECTED">Selected</option>
+                <option value="REJECTED">Rejected</option>
+            </select>
+
+
+            <label for="interviewDate">Interview Date</label>
+            <input
+                type="date"
+                id="interviewDate"
+            >
+
+
+            <label for="notes">Notes</label>
+
+            <textarea
+                id="notes"
+                rows="3"
+                placeholder="Add additional notes..."
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="primary-btn form-submit"
+            >
+                <i data-lucide="save"></i>
+                Save Application
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- APPLICATION JAVASCRIPT -->
+<script src="script.js"></script>
+
+<!-- Initialize Lucide Icons -->
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>
