@@ -7,15 +7,22 @@ A full-stack web application designed to help job seekers organize, manage, and 
 JobTrack simplifies the job application tracking process by allowing users to maintain application records, monitor recruitment progress, and view application statistics in one place.
 
 The application uses **Java and Spring Boot** for backend development, **MySQL** for data persistence, and **HTML, CSS, and JavaScript** for the frontend.
+
 ## Screenshots
 
-### Dashboard
+### 1. Dashboard
+The dashboard provides an overview of job applications, status statistics, application analytics, and recently added records.
+
 ![JobTrack Dashboard](screenshots/dashboard.png)
 
-### Applications
+### 2. Applications Management
+View, search, and filter job applications based on company name and application status.
+
 ![Applications Management](screenshots/applications.png)
 
-### Add / Edit Application
+### 3. Add / Edit Application
+Add new job applications or update existing records with company details, job role, application status, interview date, and notes.
+
 ![Application Form](screenshots/application-form.png)
 
 ## Features
